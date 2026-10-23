@@ -1,0 +1,13 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	notice
+#open	2026-10-21-03-22-08
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	fuid	file_mime_type	file_desc	proto	note	msg	sub	src	dst	p	n	peer_descr	actions	email_dest	suppress_for	remote_location.country_code	remote_location.region	remote_location.city	remote_location.latitude	remote_location.longitude
+#types	time	string	addr	port	addr	port	string	string	string	enum	enum	string	string	addr	addr	port	count	string	set[enum]	set[string]	interval	string	string	string	double	double
+1792567324.372660	CVMf9DdlhcDeA4wx8	192.168.1.103	5353	224.0.0.251	5353	-	-	-	udp	OperationSentinel::Suspicious_DNS_Lookup	Operation Sentinel: Abnormally long DNS lookup detected: 6726ca7f-d9ee-5ce8-b2f5-0b0a26b2b0a3._spotify-connect._tcp.local	-	192.168.1.103	224.0.0.251	5353	-	-	Notice::ACTION_LOG	(empty)	3600.000000	-	-	-	-	-
+1792567324.377709	CXkwtP8XaUEx5lJu3	fe80::22ef:bdff:fe37:ab62	5353	ff02::fb	5353	-	-	-	udp	OperationSentinel::Suspicious_DNS_Lookup	Operation Sentinel: Abnormally long DNS lookup detected: 6726ca7f-d9ee-5ce8-b2f5-0b0a26b2b0a3._spotify-connect._tcp.local	-	fe80::22ef:bdff:fe37:ab62	ff02::fb	5353	-	-	Notice::ACTION_LOG	(empty)	3600.000000	-	-	-	-	-
+1792567471.238596	CH547gnXkBLXaTsC	192.168.1.157	46241	8.8.8.8	53	-	-	-	udp	OperationSentinel::Suspicious_DNS_Lookup	Operation Sentinel: Abnormally long DNS lookup detected: thisisalongsubdomainforoperatingsentinellabtestingdnsanomaly.example.com	-	192.168.1.157	8.8.8.8	53	-	-	Notice::ACTION_LOG	(empty)	3600.000000	-	-	-	-	-
+1792567644.579301	CGUbjwTRrusvxWw9b	192.168.1.157	39086	104.20.23.154	80	-	-	-	tcp	Signatures::Sensitive_Signature	192.168.1.157: Operation Sentinel: Outbound PowerShell HTTP Request Detected	PowerShell/7.2.0	192.168.1.157	104.20.23.154	80	-	-	Notice::ACTION_LOG	(empty)	3600.000000	-	-	-	-	-
+#close	2026-10-21-03-30-22

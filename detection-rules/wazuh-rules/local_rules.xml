@@ -1,0 +1,258 @@
+<!--
+  Operation Sentinel Lab / Operation Grid Shield
+  Local Wazuh Detection Rules
+
+  Coverage:
+    - MALICE file integrity and ransomware indicators
+    - SSH authentication and brute-force detection
+    - Network and web reconnaissance
+    - Search Soul / Zeek network telemetry
+    - Gobuster web enumeration
+    - Style Change Framework / SOAR telemetry
+    - Sentinel Lab / Sysmon PowerShell detections
+-->
+
+<!-- ========================================================= -->
+<!-- 1. SYSCHECK / MALICE / RANSOMWARE                         -->
+<!-- ========================================================= -->
+
+<group name="syscheck,malice,">
+
+  <!-- Base detection: activity in the test vault -->
+  <rule id="100080" level="5">
+    <field name="syscheck.path">test_vault</field>
+    <description>MALICE: File activity detected in test_vault</description>
+  </rule>
+
+  <!-- Potential ransomware: files with the .locked extension -->
+  <rule id="100081" level="12">
+    <if_sid>100080</if_sid>
+    <field name="syscheck.path">\.locked$</field>
+    <description>MALICE: Potential ransomware activity detected in test_vault</description>
+    <mitre>
+      <id>T1486</id>
+    </mitre>
+  </rule>
+
+  <!-- Repeated ransomware indicators within a time window -->
+  <rule id="100082" level="14" frequency="5" timeframe="60">
+    <if_matched_sid>100081</if_matched_sid>
+    <description>MALICE: Ransomware burst detected - repeated .locked file activity within 60 seconds</description>
+    <mitre>
+      <id>T1486</id>
+    </mitre>
+  </rule>
+
+</group>
+
+
+<!-- ========================================================= -->
+<!-- 2. SSH AUTHENTICATION / BRUTE FORCE                       -->
+<!-- ========================================================= -->
+
+<group name="authentication_failed,ssh,bruteforce,">
+
+  <!-- Override: invalid or nonexistent SSH username attempts -->
+  <rule id="5710" level="8" overwrite="yes">
+    <if_sid>5700</if_sid>
+    <match>illegal user|invalid user</match>
+    <description>GRID ALERT: Attempted login using a non-existent user</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <!-- Repeated failed authentication from the same source IP -->
+  <rule id="100060" level="12" frequency="5" timeframe="60">
+    <if_matched_sid>5710</if_matched_sid>
+    <same_source_ip />
+    <description>GRID ALERT: High-frequency SSH brute-force activity detected</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <!-- Faster SSH brute-force escalation -->
+  <rule id="100002" level="12" frequency="6" timeframe="30">
+    <if_matched_sid>5710</if_matched_sid>
+    <same_source_ip />
+    <description>GRID ALERT: SSH brute-force intrusion attempt detected</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+</group>
+
+
+<!-- ========================================================= -->
+<!-- 3. NETWORK / WEB RECONNAISSANCE                           -->
+<!-- ========================================================= -->
+
+<group name="local,syslog,sshd,recon,">
+
+  <!-- Detect Nmap references in matching events -->
+  <rule id="100301" level="8">
+    <if_sid>5700</if_sid>
+    <match>nmap</match>
+    <description>GRID ALERT: Potential reconnaissance scan detected</description>
+    <mitre>
+      <id>T1595</id>
+    </mitre>
+  </rule>
+
+  <!-- Detect web scanning tool references in matching web events -->
+  <rule id="100003" level="10">
+    <if_sid>31100</if_sid>
+    <regex>Gobuster|Nikto|sqlmap</regex>
+    <description>GRID ALERT: Web application scanning tool identified</description>
+    <mitre>
+      <id>T1595.002</id>
+    </mitre>
+  </rule>
+
+</group>
+
+
+<!-- ========================================================= -->
+<!-- 4. SEARCH SOUL / ZEEK NETWORK DETECTION                   -->
+<!-- ========================================================= -->
+
+<group name="search_soul,nist_identify,nist_detect,">
+
+  <!-- Search Soul host discovery -->
+  <rule id="100070" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="module">Search Soul</field>
+    <description>Search Soul: Active host discovered at $(target_ip)</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+
+  <!-- Baseline Zeek connection telemetry -->
+  <rule id="100071" level="2">
+    <decoded_as>json</decoded_as>
+    <field name="conn_state">.+</field>
+    <description>Search Soul Zeek: Connection from $(id.orig_h) to $(id.resp_h):$(id.resp_p) - State $(conn_state)</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+
+  <!-- Unanswered SYN connections: possible scanning activity -->
+  <rule id="100072" level="7">
+    <if_sid>100071</if_sid>
+    <field name="conn_state">^S0$</field>
+    <description>Search Soul WARNING: Unanswered SYN from $(id.orig_h) to $(id.resp_h):$(id.resp_p) - Potential network scan</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+
+</group>
+
+
+<!-- ========================================================= -->
+<!-- 5. GOBUSTER / WEB ENUMERATION                             -->
+<!-- ========================================================= -->
+
+<group name="local,web,enumeration,">
+
+  <!-- Detect Gobuster in supported parent-rule events -->
+  <rule id="100350" level="7">
+    <if_sid>31100,31101,31533</if_sid>
+    <match>gobuster</match>
+    <description>Operation Grid Shield: Gobuster web enumeration detected</description>
+    <mitre>
+      <id>T1595.002</id>
+    </mitre>
+    <group>web,reconnaissance,</group>
+  </rule>
+
+  <!-- Escalate repeated Gobuster events -->
+  <rule id="100351" level="10" frequency="50" timeframe="10">
+    <if_matched_sid>100350</if_matched_sid>
+    <same_source_ip />
+    <description>Operation Grid Shield: High-volume Gobuster enumeration detected</description>
+    <mitre>
+      <id>T1595.003</id>
+    </mitre>
+    <group>web,reconnaissance,active_attack,</group>
+  </rule>
+
+</group>
+
+
+<!-- ========================================================= -->
+<!-- 6. STYLE CHANGE FRAMEWORK / SOAR TELEMETRY                -->
+<!-- ========================================================= -->
+
+<group name="style_framework,soar_alert,">
+
+  <!-- Baseline ingestion from the custom decoder -->
+  <rule id="100200" level="3">
+    <decoded_as>style_framework</decoded_as>
+    <description>Style Framework: Telemetry successfully matched the custom decoder</description>
+  </rule>
+
+  <!-- Escalate high- and critical-severity events -->
+  <rule id="100201" level="10">
+    <if_sid>100200</if_sid>
+    <field name="severity" type="pcre2">^(HIGH|CRITICAL)$</field>
+    <description>Style Framework: High/Critical event ingested by HubStyle orchestrator</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+  </rule>
+
+</group>
+
+
+<!-- ========================================================= -->
+<!-- 7. OPERATION SENTINEL / SYSMON / POWERSHELL               -->
+<!-- ========================================================= -->
+
+<group name="local,sysmon,powershell,sentinel_lab,">
+
+  <!-- Detect encoded PowerShell command execution -->
+  <rule id="100901" level="8">
+    <if_sid>61603</if_sid>
+    <field name="win.eventdata.image" type="pcre2">(?i)powershell\.exe$</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(^|\s)-(e|en|enc|enco|encod|encode|encodedcommand)(\s|$)</field>
+    <description>Operation Sentinel: Encoded PowerShell command execution detected - T1059.001</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+  </rule>
+
+  <!-- Suppress matching alerts from a trusted management agent -->
+  <rule id="100902" level="0">
+    <if_sid>100901</if_sid>
+    <field name="win.eventdata.parentImage" type="pcre2">(?i)^C:\\Program Files\\ITManagement\\AgentService\.exe$</field>
+    <description>Sentinel tuning: Suppressed encoded PowerShell alert from the designated management agent</description>
+  </rule>
+
+</group>
+
+
+<group name="local,json,sentinel_test,">
+  <rule id="100903" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="win.eventdata.image" type="pcre2">(?i)powershell\.exe$</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(^|\s)-(e|en|enc|enco|encod|encode|encodedcommand)(\s|$)</field>
+    <description>Operation Sentinel TEST: Encoded PowerShell command detected in JSON - T1059.001</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+  </rule>
+</group>
+
+<!-- Temporary tuning test: suppress trusted-agent JSON test events -->
+<group name="local,json,sentinel_test,">
+  <rule id="100904" level="0">
+    <if_sid>100903</if_sid>
+    <field name="win.eventdata.parentImage" type="pcre2">(?i)^C:\\Program Files\\ITManagement\\AgentService\.exe$</field>
+    <description>Sentinel TEST: Suppress encoded PowerShell test events from the trusted management agent</description>
+  </rule>
+</group>

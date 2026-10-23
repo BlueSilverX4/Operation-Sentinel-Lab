@@ -1,0 +1,10 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	signatures
+#open	2026-10-21-03-27-32
+#fields	ts	uid	src_addr	src_port	dst_addr	dst_port	note	sig_id	event_msg	sub_msg	sig_count	host_count
+#types	time	string	addr	port	addr	port	enum	string	string	string	count	count
+1792567644.579301	CGUbjwTRrusvxWw9b	192.168.1.157	39086	104.20.23.154	80	Signatures::Sensitive_Signature	seq_sentinel_powershell_http	192.168.1.157: Operation Sentinel: Outbound PowerShell HTTP Request Detected	PowerShell/7.2.0	-	-
+#close	2026-10-21-03-30-22

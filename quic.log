@@ -1,0 +1,15 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	quic
+#open	2026-10-21-03-24-14
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	version	client_initial_dcid	client_scid	server_scid	server_name	client_protocol	history
+#types	time	string	addr	port	addr	port	string	string	string	string	string	string	string
+1792567393.515152	C2UTdCRCcvHW8s23e	192.168.1.157	54256	142.251.153.2	443	1	ae69447607286a9f	(empty)	ee69447607286a9f	gemini.google.com	h3	IISZiiishooIHHOoOOoO
+1792567427.099343	Cs8lyf3bEq6Y4xzu7b	192.168.1.157	54501	142.251.153.2	443	1	8f760618ab392cc3	(empty)	ef760618ab392cc3	gemini.google.com	h3	IIISiiiiishooZIhoHOHhHOHOOo
+1792567444.040109	CXor8M2Q3aXeZDEt1a	192.168.1.157	54663	142.251.45.170	443	1	1516907e8d01e07d	(empty)	f516907e8d01e07d	signaler-pa.clients6.google.com	h3	IIISZiiiiishoooihiZIHHOOHOoOo
+1792567586.985224	CuoFyb41wvqwt3P3nd	192.168.1.157	51175	172.253.122.84	443	1	2cd43095904b38bc	(empty)	ecd43095904b38bc	accounts.google.com	h3	IIISiiiiishooihIIihoIihIiIiIiIiIihIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiho
+1792567724.349099	C5bLzt3roayCC53bag	192.168.1.157	38982	142.251.152.2	443	1	2dc0d8952dcae720	(empty)	edc0d8952dcae720	gemini.google.com	h3	IISiiishooIIihIiIihoIiIiIiZHOOOHoO
+1792567712.631548	C6KDld4JVm5wCJg4Bh	192.168.1.157	55887	142.250.217.10	443	1	2902155db9b762e0	(empty)	e902155db9b762e0	signaler-pa.clients6.google.com	h3	IIISiiiiishooIIihoIiIihIiZZHOoHOO
+#close	2026-10-21-03-30-22

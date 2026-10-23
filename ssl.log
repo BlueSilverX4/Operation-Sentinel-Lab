@@ -1,0 +1,22 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	ssl
+#open	2026-10-21-03-24-14
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	version	cipher	curve	server_name	resumed	last_alert	next_protocol	established	ssl_history	cert_chain_fps	client_cert_chain_fps	sni_matches_cert
+#types	time	string	addr	port	addr	port	string	string	string	string	bool	string	string	bool	string	vector[string]	vector[string]	bool
+1792567393.515666	C2UTdCRCcvHW8s23e	192.168.1.157	54256	142.251.153.2	443	TLSv13	TLS_CHACHA20_POLY1305_SHA256	X25519MLKEM768	gemini.google.com	T	-	-	F	Cs	-	-	-
+1792567427.113517	Cs8lyf3bEq6Y4xzu7b	192.168.1.157	54501	142.251.153.2	443	TLSv13	TLS_CHACHA20_POLY1305_SHA256	X25519MLKEM768	gemini.google.com	T	-	-	F	Cs	-	-	-
+1792567510.410694	CHjiah4QV5lyxasvTl	192.168.1.157	33696	52.43.96.197	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	go-updater.brave.com	F	-	-	T	CsiI	-	-	-
+1792567444.040633	CXor8M2Q3aXeZDEt1a	192.168.1.157	54663	142.251.45.170	443	TLSv13	TLS_AES_256_GCM_SHA384	X25519MLKEM768	signaler-pa.clients6.google.com	T	-	-	F	Cs	-	-	-
+1792567507.799584	CaY6J02tczaebPnFUe	192.168.1.157	46776	99.84.160.29	443	TLSv13	TLS_AES_128_GCM_SHA256	X25519MLKEM768	variations.brave.com	T	-	-	T	CsiI	-	-	-
+1792567533.954980	C86Vqr3v9qQQ0PjLUf	192.168.1.157	45108	185.70.42.41	443	TLSv13	TLS_CHACHA20_POLY1305_SHA256	X25519MLKEM768	mail-api.proton.me	F	-	-	T	CsiI	-	-	-
+1792567588.126419	CdrDEo3BNDmZUO6CO5	192.168.1.157	57680	172.253.122.84	443	TLSv13	TLS_CHACHA20_POLY1305_SHA256	X25519MLKEM768	accounts.google.com	T	-	-	T	CsiI	-	-	-
+1792567600.309794	CPEo324LwcZr15tIr5	192.168.1.157	57684	172.65.55.248	443	TLSv13	TLS_AES_128_GCM_SHA256	x25519	collector.wdp.brave.com	F	-	-	T	CsiI	-	-	-
+1792567586.991116	CuoFyb41wvqwt3P3nd	192.168.1.157	51175	172.253.122.84	443	TLSv13	TLS_CHACHA20_POLY1305_SHA256	X25519MLKEM768	accounts.google.com	T	-	-	F	Cs	-	-	-
+1792567713.473884	COD9jG4zo94XwNrzn4	192.168.1.157	34196	142.250.217.10	443	TLSv13	TLS_AES_256_GCM_SHA384	X25519MLKEM768	signaler-pa.clients6.google.com	T	-	-	T	CsiI	-	-	-
+1792567724.494050	CKGH1l4KZUy5XZxmP1	192.168.1.157	52378	142.251.152.2	443	TLSv13	TLS_CHACHA20_POLY1305_SHA256	X25519MLKEM768	gemini.google.com	T	-	-	T	CsiI	-	-	-
+1792567724.349408	C5bLzt3roayCC53bag	192.168.1.157	38982	142.251.152.2	443	TLSv13	TLS_CHACHA20_POLY1305_SHA256	X25519MLKEM768	gemini.google.com	T	-	-	F	Cs	-	-	-
+1792567712.632088	C6KDld4JVm5wCJg4Bh	192.168.1.157	55887	142.250.217.10	443	TLSv13	TLS_AES_256_GCM_SHA384	X25519MLKEM768	signaler-pa.clients6.google.com	T	-	-	F	Cs	-	-	-
+#close	2026-10-21-03-30-22

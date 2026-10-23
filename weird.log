@@ -1,0 +1,11 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	weird
+#open	2026-10-21-03-22-16
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	name	addl	notice	peer	source
+#types	time	string	addr	port	addr	port	string	string	bool	string	string
+1792567336.149622	CYVp453szmcCUGbyQb	192.168.1.157	42348	142.250.191.10	443	QUIC_spurious_short_header_packet_threshold_crossed	1	F	zeek	-
+1792567595.777119	CuoFyb41wvqwt3P3nd	192.168.1.157	51175	172.253.122.84	443	QUIC_max_history_length_reached	-	F	zeek	-
+#close	2026-10-21-03-30-22
